@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
-import 'dart:convert';
-import 'dart:io';
 
 void main() {
   runApp(ModelManagementApp());
@@ -9,34 +6,14 @@ void main() {
 
 class Model {
   final String name;
-  final String filePath;
   final List<String> classes;
   final List<int> inputSize;
   final int nc;
   final String description;
+  final String filePath;
 
-  Model(this.name, this.filePath, this.classes, this.inputSize, this.description)
+  Model(this.name, this.classes, this.inputSize, this.description, this.filePath)
       : nc = classes.length;
-
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'filePath': filePath,
-      'classes': classes,
-      'inputSize': inputSize,
-      'description': description,
-    };
-  }
-
-  factory Model.fromJson(Map<String, dynamic> json) {
-    return Model(
-      json['name'],
-      json['filePath'],
-      List<String>.from(json['classes']),
-      List<int>.from(json['inputSize']),
-      json['description'],
-    );
-  }
 }
 
 class ModelManagementApp extends StatelessWidget {
@@ -58,12 +35,87 @@ class ModelListScreen extends StatefulWidget {
 }
 
 class _ModelListScreenState extends State<ModelListScreen> {
-  List<Model> models = [];
+  List<Model> models = [
+    Model('Model 1', ['Class A', 'Class B'], [224, 224], 'This is Model 1, it supports image input size of 224x224.', '/path/to/model1.pt'),
+    Model('Model 2', ['Class X', 'Class Y', 'Class Z'], [512, 512], 'Model 2 is a powerful model with image input size of 512x512.', '/path/to/model2.pt'),
+  ];
 
-  @override
-  void initState() {
-    super.initState();
-    _loadModelList();
+  void _deleteModel(int index) {
+    setState(() {
+      models.removeAt(index);
+    });
+  }
+
+  void _addNewModelDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        String name = '';
+        List<String> classes = [];
+        List<int> inputSize = [];
+        String description = '';
+        String filePath = '';
+
+        return AlertDialog(
+          title: Text('Add New Model'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextField(
+                  decoration: InputDecoration(labelText: 'Name'),
+                  onChanged: (value) {
+                    name = value;
+                  },
+                ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'Classes (comma-separated)'),
+                  onChanged: (value) {
+                    classes = value.split(',');
+                  },
+                ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'Input Size (width,height)'),
+                  onChanged: (value) {
+                    List<String> sizes = value.split(',');
+                    inputSize = sizes.map((size) => int.tryParse(size.trim()) ?? 0).toList();
+                  },
+                ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'Description'),
+                  onChanged: (value) {
+                    description = value;
+                  },
+                ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'File Path'),
+                  onChanged: (value) {
+                    filePath = value;
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Model newModel = Model(name, classes, inputSize, description, filePath);
+                setState(() {
+                  models.add(newModel);
+                });
+                Navigator.pop(context);
+              },
+              child: Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -75,8 +127,7 @@ class _ModelListScreenState extends State<ModelListScreen> {
       body: ListView.builder(
         itemCount: models.length,
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text(models[index].name),
+          return ListTile(            title: Text(models[index].name),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -84,6 +135,7 @@ class _ModelListScreenState extends State<ModelListScreen> {
                 Text('Input Size: ${models[index].inputSize[0]}x${models[index].inputSize[1]}'),
                 Text('Class Count: ${models[index].nc}'),
                 Text('Description: ${models[index].description}'),
+                Text('File Path: ${models[index].filePath}'),
               ],
             ),
             trailing: IconButton(
@@ -99,117 +151,11 @@ class _ModelListScreenState extends State<ModelListScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await _addNewModel();
+        onPressed: () {
+          _addNewModelDialog();
         },
         child: Icon(Icons.add),
       ),
     );
   }
-
-  Future<void> _loadModelList() async {
-    try {
-      final file = File('model_list.json');
-      if (await file.exists()) {
-        final jsonContent = await file.readAsString();
-        final List<dynamic> jsonList = jsonDecode(jsonContent);
-        setState(() {
-          models = jsonList.map((json) => Model.fromJson(json)).toList();
-        });
-      }
-    } catch (e) {
-      print('Failed to load model list: $e');
-    }
-  }
-
-  Future<void> _saveModelList() async {
-    try {
-      final file = File('model_list.json');
-      final List<Map<String, dynamic>> jsonList =
-      models.map((model) => model.toJson()).toList();
-      final jsonString = jsonEncode(jsonList);
-      await file.writeAsString(jsonString);
-    } catch (e) {
-      print('Failed to save model list: $e');
-    }
-  }
-
-  Future<void> _addNewModel() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pt'],
-    );
-
-    if (result != null) {
-      String filePath = result.files.single.path!;
-      String fileName = result.files.single.name;
-      String modelName = fileName.replaceAll('.pt', '');
-
-      showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          String classes = '';
-          String inputSize = '';
-          String description = '';
-
-          return AlertDialog(
-            title: Text('Add New Model'),
-            content: SingleChildScrollView(
-              child: Column(
-                children: [
-                  TextField(
-                    decoration: InputDecoration(labelText: 'Classes (comma-separated)'),
-                    onChanged: (value) {
-                      classes = value;
-                    },
-                  ),
-                  TextField(
-                    decoration: InputDecoration(labelText: 'Input Size (width,height)'),
-                    onChanged: (value) {
-                      inputSize = value;
-                    },
-                  ),
-                  TextField(
-                    decoration: InputDecoration(labelText: 'Description'),
-                    onChanged: (value) {
-                      description = value;
-                    },
-                  ),
-                ],
-              ),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(dialogContext);
-                },
-                child: Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  List<String> classList = classes.split(',');
-                  List<int> sizeList = inputSize.split(',').map((size) => int.parse(size.trim())).toList();
-                  Model newModel = Model(modelName, filePath, classList, sizeList, description);
-                  setState(() {
-                    models.add(newModel);
-                  });
-                  Navigator.pop(dialogContext);
-                  _saveModelList();  // 모델 리스트 저장
-                },
-                child: Text('Add'),
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
-
-  void _deleteModel(int index) {
-    setState(() {
-      models.removeAt(index);
-      _saveModelList();  // 모델 리스트 저장
-    });
-  }
 }
-
