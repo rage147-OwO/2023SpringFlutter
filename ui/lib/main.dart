@@ -15,6 +15,7 @@ class ModelManagementApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Model Management',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -111,7 +112,7 @@ class _ModelListScreenState extends State<ModelListScreen> {
                     File copiedFile = await file.copy(newPath);
                     filePath = copiedFile.path;
                   },
-                  child: Text("Select model(.pt) file"),
+                  child: Text("Select model(.torchscript) file"),
                 ),
               ],
             ),
@@ -189,13 +190,6 @@ class _ModelListScreenState extends State<ModelListScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                FloatingActionButton(
-                  onPressed: () {
-                    modelManager.printAllModelFiles();
-                  },
-                  child: Icon(Icons.print),
-                ),
-                SizedBox(width: 16),
                 FloatingActionButton(
                   onPressed: () {
                     _addNewModelDialog();

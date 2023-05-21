@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_pytorch/flutter_pytorch.dart';
 import 'package:flutter_pytorch/pigeon.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:ui/model_manager.dart';
+import 'package:object_detection/model_manager.dart';
 
 import 'camera_view_singleton.dart';
 

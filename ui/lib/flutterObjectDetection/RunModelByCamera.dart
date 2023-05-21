@@ -3,9 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pytorch/pigeon.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:ui/model_manager.dart';
-
-
+import 'package:object_detection/model_manager.dart';
+import 'package:performance/performance.dart';
 import 'box_widget.dart';
 import 'camera_view.dart';
 
@@ -166,6 +165,7 @@ class ResultsRow extends StatelessWidget {
             children: [
               Text('Class: ${result.className ?? ''}'),
               Text('Score: ${result.score ?? ''}'),
+
             ],
           ),
         );
@@ -173,6 +173,32 @@ class ResultsRow extends StatelessWidget {
     );
   }
 }
+
+
+class CPUUsageWidget extends StatefulWidget {
+  @override
+  _CPUUsageWidgetState createState() => CustomPerformanceOverlay(child: );
+}
+
+class _CPUUsageWidgetState extends State<CPUUsageWidget> {
+  double cpuUsage = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    CpuUsage.usageStream.listen((usage) {
+      setState(() {
+        cpuUsage = usage;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text('CPU 사용률: ${cpuUsage.toStringAsFixed(2)}%');
+  }
+}
+
 
 
 

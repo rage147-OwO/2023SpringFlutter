@@ -1,4 +1,4 @@
-name: ui
+name: object_detection
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -39,6 +39,7 @@ dependencies:
   image: ^3.0.2
   flutter_pytorch:
     path: ./flutter_pytorch-1.0.1_custom
+  performance: ^0.1.1
 
 
 dev_dependencies:
