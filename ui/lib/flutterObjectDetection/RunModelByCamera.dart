@@ -11,14 +11,14 @@ import 'camera_view.dart';
 
 
 
-class RunModelByCameraDemo extends StatefulWidget {
+class RunModelByCamera extends StatefulWidget {
   final Model model;
-  RunModelByCameraDemo(this.model);
+  RunModelByCamera(this.model);
   @override
-  _RunModelByCameraDemoState createState() => _RunModelByCameraDemoState();
+  _RunModelByCameraState createState() => _RunModelByCameraState();
 }
 
-class _RunModelByCameraDemoState extends State<RunModelByCameraDemo> {
+class _RunModelByCameraState extends State<RunModelByCamera> {
   List<ResultObjectDetection?>? results;
   String? classification;
 

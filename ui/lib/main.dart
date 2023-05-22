@@ -175,7 +175,7 @@ class _ModelListScreenState extends State<ModelListScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => RunModelByCameraDemo(models[index]),
+                    builder: (context) => RunModelByCamera(models[index]),
                   ),
                 );
               },
