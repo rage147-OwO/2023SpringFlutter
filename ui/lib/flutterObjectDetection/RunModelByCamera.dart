@@ -8,8 +8,7 @@ import 'package:performance/performance.dart';
 import 'box_widget.dart';
 import 'camera_view.dart';
 
-//import 'package:flutter_pytorch/flutter_pytorch.dart';
-//import 'package:flutter_pytorch/pigeon.dart';
+
 
 
 class RunModelByCameraDemo extends StatefulWidget {
@@ -59,7 +58,8 @@ class _RunModelByCameraDemoState extends State<RunModelByCameraDemo> {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.black,
-      body: Stack(
+      body: CustomPerformanceOverlay(
+        child: Stack(
         children: <Widget>[
           CameraView(
               resultsCallback:resultsCallback,
@@ -97,6 +97,7 @@ class _RunModelByCameraDemoState extends State<RunModelByCameraDemo> {
           )
         ],
       ),
+      )
     );
   }
 
@@ -175,29 +176,6 @@ class ResultsRow extends StatelessWidget {
 }
 
 
-class CPUUsageWidget extends StatefulWidget {
-  @override
-  _CPUUsageWidgetState createState() => CustomPerformanceOverlay(child: );
-}
-
-class _CPUUsageWidgetState extends State<CPUUsageWidget> {
-  double cpuUsage = 0.0;
-
-  @override
-  void initState() {
-    super.initState();
-    CpuUsage.usageStream.listen((usage) {
-      setState(() {
-        cpuUsage = usage;
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Text('CPU 사용률: ${cpuUsage.toStringAsFixed(2)}%');
-  }
-}
 
 
 
