@@ -75,7 +75,8 @@ class _RunModelByCameraState extends State<RunModelByCamera> {
                 width: double.maxFinite,
                 decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.9),
-                    borderRadius: BORDER_RADIUS_BOTTOM_SHEET),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0))),
                 child: SingleChildScrollView(
                   controller: scrollController,
                   child: Center(
@@ -141,9 +142,8 @@ class _RunModelByCameraState extends State<RunModelByCamera> {
     });
   }
 
-  static const BOTTOM_SHEET_RADIUS = Radius.circular(24.0);
   static const BORDER_RADIUS_BOTTOM_SHEET = BorderRadius.only(
-      topLeft: BOTTOM_SHEET_RADIUS, topRight: BOTTOM_SHEET_RADIUS);
+      topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0));
 }
 
 class ResultsRow extends StatelessWidget {

@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'model_manager.dart';
-import 'flutterObjectDetection/RunModelByCamera.dart';
+import 'RunModelByCamera.dart';
 
 void main() {
   runApp(ModelManagementApp());
