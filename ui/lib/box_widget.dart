@@ -14,12 +14,8 @@ class BoxWidget extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    // Color for bounding box
-    //print(MediaQuery.of(context).size);
     Color? usedColor;
-    //Size screenSize = CameraViewSingleton.inputImageSize;
     Size screenSize = CameraViewSingleton.actualPreviewSizeH;
-    //Size screenSize = MediaQuery.of(context).size;
 
     //print(screenSize);
     double factorX = screenSize.width;

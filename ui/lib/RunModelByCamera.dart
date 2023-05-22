@@ -20,10 +20,6 @@ class RunModelByCamera extends StatefulWidget {
 
 class _RunModelByCameraState extends State<RunModelByCamera> {
   List<ResultObjectDetection?>? results;
-  String? classification;
-
-  /// Scaffold Key
-  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   @override void initState() {
 
@@ -56,7 +52,6 @@ class _RunModelByCameraState extends State<RunModelByCamera> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
       backgroundColor: Colors.black,
       body: CustomPerformanceOverlay(
         child: Stack(
@@ -136,11 +131,6 @@ class _RunModelByCameraState extends State<RunModelByCamera> {
     });
   }
 
-  void resultsCallbackClassification(String classification) {
-    setState(() {
-      this.classification = classification;
-    });
-  }
 
   static const BORDER_RADIUS_BOTTOM_SHEET = BorderRadius.only(
       topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0));
