@@ -151,6 +151,12 @@ flutter_pytorch //flutter_pytorch라이브러리, 이미지로 감지 후 result
 #### 4. 프로그램 실행 화면 캡쳐 설명
 https://www.youtube.com/watch?v=HKiJsClo43w
 
+![image](https://github.com/rasbt/deeplearning-models/assets/96696114/9c0b6252-e75f-44bb-8fee-f142a1b9a6ad)
+modelList
+
+![image](https://github.com/rasbt/deeplearning-models/assets/96696114/4f99e285-8789-4888-91d2-1e4e00f37523)
+objectdetection&confidence, fps latency
+
 #### 5. 개인의견
 - 현재 torchscript로 objectdetection만 가능하지만, 이후 classification나 tflite같은 다른 라이브러리도 가능한 종합 테스트 앱으로 사용할 예정.
 
