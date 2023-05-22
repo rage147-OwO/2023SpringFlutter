@@ -1,17 +1,14 @@
 ## 2023SpringFlutter 
-#####UI/UX프로그래밍[02] flutter 앱개발 프로젝트
-기간 : 2023.05.01~2023.0520
+##### UI/UX프로그래밍[02] flutter 앱개발 프로젝트
+기간 : 2023.05.01~2023.05.20
 PyTorch기반 실시간 객체 감지 모델 테스트 앱 
 <br><br>
 
 
-
-### 0. 문제 제기 및 프로젝트 목적
-yolov5 모델 학습 후, 모바일 환경에서 테스트가 어려움
-
+------------
 
 ### 1. 프로젝트 제안서
-------------
+
 ##### 1. 프로그램 개요 및 설명
 - PC환경에서는 성능에 제약의 적으나, 모바일 환경에서는 객체감지에 있어 성능에 제한이 있음. 그렇기에 모델의 경량화가 필수불가결인데, 서로 다른 모바일 환경에서 객체감지 모델 테스트를 위한 앱
 - Flutter를 사용하여 PyTorch 기반 실시간 객체 감지 모델을 모바일환경에서 구동 할 수 있는 앱 구현
@@ -100,53 +97,60 @@ ObjectDetectionResult를 이용하여 결과 출력
 
 
 
+------------
+### 3. 프로젝트 발표자료&결과보고서
+#### 0. 시연영상 https://www.youtube.com/watch?v=HKiJsClo43w
+#### 1. 프로그램 개요 및 설명
+- PC환경에서는 성능에 제약의 적으나, 모바일 환경에서는 객체감지에 있어 성능에 제한이 있음. 그렇기에 모델의 경량화가 필수불가결인데, 서로 다른 모바일 환경에서 객체감지 모델 테스트를 위한 앱
+- Flutter를 사용하여 PyTorch 기반 실시간 객체 감지 모델을 모바일환경에서 구동 할 수 있는 앱 구현
+- 모바일 기기에서 서로 다른 객체감지모델 테스트를 위한 앱
 
+#### 2. 전체 구조도 설명
+- 사용한 플러터 패키지
+ - file_picker: ^5.3.0 #파일 선택 기능 제공 패키지
+ - camera: ^0.9.8+1 #실시간 preview를 제공하는 패키지
+ - flutter_pytorch #torchscript파일로 검출 기능 제공하는 패키지
+  - performance: ^0.1.1 #UI와 다음 프레임 레이턴시를 모니터링 하기 위한 패키지
+- 클래스 구조도
+![](https://raw.githubusercontent.com/rage147-OwO/2023SpringFlutter/main/classUML.svg?token=GHSAT0AAAAAACBC3VJXMNE464BTIID7RS6EZDLTTFA)
 
+```
+model_manager.dart
+ModelManager //모델을 관리하는 클래스, 모델의 저장 위치와 모델리스트JSON의 저장 위치 Setting, SaveModels, loadmodels, deleteModelFile, 디버그용 printAllModelFiles
+Model //모델 관리용 객체. name, classes, inputSize, nc, description, filePath, toJson, fromJson
 
+main.dart
+ModelManagementApp
+ModelListScreen 
+_ModelListScreenState //모델 리스트 위젯, initState에서 loadlist, button으로 savemodel, deletemodel, listOntap시 RunModelByCamera위젯 build
 
+RunModelByCamera.dart
+RunModelByCamera(model) //model을 생성자로 가져옴
+_RunModelByCameraState // initState()에서 CameraView위젯 build, result를 콜백받고 바운딩박스 위젯 업데이트, 신뢰도 업데이트
 
+camera_view_singleton.dart
+CameraViewSingleton //camera_view와 BoxWidget에서 실제 화면 사이즈를 계산하기 위한 singleton
 
+box_widget.dart
+BoxWidget //flutter_pytorch패키지에서 result 따라 Container로 바운딩 박스 생성
 
+camera_view.dart
+CameraView //flutter_pytorch에서 감지된 result를 callback받음
 
+_CameraViewState //카메라 initialize, loadmodel, 카메라에서 이미지를 받아올때마다 flutter_pytorch에 result 요청, _RunModelByCameraState에게 callback
 
+flutter_pytorch //flutter_pytorch라이브러리, 이미지로 감지 후 result업데이트
 
+```
 
+#### 3. 주요 기능 설명
+- torchscript 파일 로드, 저장, 삭제
+- 리스트에서 선택한 Model로 실시간 객체 감지
+- 객체 감지 중, 다음 프레임 레이턴시 모니터링
 
+#### 4. 프로그램 실행 화면 캡쳐 설명
+https://www.youtube.com/watch?v=HKiJsClo43w
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### 팀프로젝트 발표평가
-  점수기준
-  개요설명(5)	전체 구조도 설명(10)	주요 기능 설명(10)	프로그램시연(5)	발표력및발표시간(5)	
-
-# 결과보고서 제출
-UI/UX프로그래밍 결과보고서 제출 안내
-1. 결과보고서 내용
-	1. 프로그램 개요 및 설명
-	2. 전체 구조도 설명
-	3. 주요 기능 설명
-	4. 프로그램 실행 화면 캡쳐 설명
-	5. (optional) 개인의견
-	- 발표자료를 기반으로 작성 가능
-2. 제출 내용
-	- 결과보고서 + 전체프로젝트(소스코드) 압축본
-	- 소스코드에 대한 설명 포함(문서 또는 코드상)
-3. 제출 기한
-	- 06.06.(화) 까지
-
-
-
-![](https://raw.githubusercontent.com/rage147-OwO/2023SpringFlutter/main/lLTDSzis4BthLs1qIYPL3proF78ioMxIshL7SfiZ1mHNCXeGu02W53NDVoy-O0PYH8vaDBbenBV0xiFk0nPugpIMkgdOI85675UWQanW1JMMM0k9icmq8WmhXSODpR8rQxG6UL_y3KGlG9jVAdYM5U9JlgFb1lJFfN6OPJFnwOFx7gFF8uJUB44rJ7Vc8UbGQvyB9kGbCdv0kVyMB8HWI3s9tG.svg?token=GHSAT0AAAAAAB5HKWBVV4VANPYMP25UYPIQZDKDOWA)
+#### 5. 개인의견
+- 현재 torchscript로 objectdetection만 가능하지만, 이후 classification나 tflite같은 다른 라이브러리도 가능한 종합 테스트 앱으로 사용할 예정.
 
