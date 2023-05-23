@@ -160,3 +160,19 @@ objectdetection&confidence, fps latency
 #### 5. 개인의견
 - 현재 torchscript로 objectdetection만 가능하지만, 이후 classification나 tflite같은 다른 라이브러리도 가능한 종합 테스트 앱으로 사용할 예정.
 
+#### 6. 알려진 Issue
+- 100mb가 넘는 가중치의 경우, 파일 선택 후 복사가 정상적으로 작동하지 않음
+- ios 호한 불가능, PyTorch패키지가 안드로이드 C++ 네이티브 코드로 작동함
+
+#### 7. 예상 QnA
+- 앱을 개발하면서 가장 어려웠던 부분은 어디인가요?
+=> 안드로이드에서 절대경로로 파일을 받아오려면,file picker 패키지로는 불가하고 네이티브 코드로 구현해야 함. 대신 Appdata path에 복사는 가능해서, 복사하는 방법으로 감.
+=> 처음에는 각 모델당 modelInfo.txt를 만들어 모델을 관리하는 코드를 작성했으나, 마음에 들지 않아 다시 만듬
+- 앱을 사용하는 동안 발생한 예외 상황이나 오류 처리 방법에 대해 설명해주세요.
+=> 디버깅은 안드로이드 스튜디오에서 Log를 확인했고, In App에서는 앱을 디버깅 할 방법이 없음, 알려지지 않은 Issue에 대처하기 어려움
+- 테스트에 쓰인 모델은 무엇인가요?
+=>시연영상 모델 둘다 yolov5고, 첫번째는 직접 학습한 car detection, 두번째는 coco dataset 기본 모델입니다
+- 모델 추가시, 설정을 잘못하면 어떻게 되나요?
+=> 클래스 레이블 수가 불일치하거나 입력 이미지 크기가 불일치하는경우 boundingbox가 검출되지 않습니다
+- 앱은 어디에서 받을 수 있나요?
+=> https://github.com/rage147-OwO/flutter_objectdetectionBypytorch
