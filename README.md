@@ -56,7 +56,7 @@ PyTorch 기반 실시간 객체 감지 모델 테스트 앱
   ![Class UML](https://raw.githubusercontent.com/rage147-OwO/2023SpringFlutter/main/classUML.svg?token=GHSAT0AAAAAACBC3VJXMNE464BTIID7RS6EZDLTTFA)
   
   주요 클래스:
-  - ModelManager: 모델을 관리하는 클래스로, 모델의 저장 위치와 모델 리스트 JSON의 저장 위치 설정, 모델 저장, 로드, 삭제 기능을 제공합니다. 디버그용으로 모든 모델 파일을 출력하는 기능도 있습니다.
+  - ModelManager: 모델을 관리하는 클래스로, 모델의 저장 위치와   JSON의 저장 위치 설정, 모델 저장, 로드, 삭제 기능을 제공합니다. 디버그용으로 모든 모델 파일을 출력하는 기능도 있습니다.
   - Model: 모델을 관리하기 위한 객체로, 이름, 클래스, 입력 이미지 크기 등의 정보를 포함합니다. JSON 직렬화 및 역직렬화를 위한 기능도 제공합니다.
   - ModelManagementApp, ModelListScreen, _ModelListScreenState: 모델 리스트를 표시하는 위젯으로, 초기화 시 모델 리스트를 로드하고, 모델 저장, 삭제 기능을 버튼으로 제공합니다. 모델을 선택하면 RunModelByCamera 위젯을 빌드합니다.
   - RunModelByCamera, _RunModelByCameraState: 선택한 모델로 실시간 객체 감지를 수행하는 위젯입니다. 초기화 시 카메라 뷰를 빌드하고, 결과를 콜백으로 받아 바운딩 박스 위젯을 업데이트하고, 신뢰도를 업데이트합니다.
@@ -75,9 +75,11 @@ PyTorch 기반 실시간 객체 감지 모델 테스트 앱
 - 시연 영상: [링크](https://www.youtube.com/watch?v=HKiJsClo43w)
 - 아래는 프로그램 실행 화면의 캡처 이미지 및 설명입니다:
   ![이미지](https://github.com/rasbt/deeplearning-models/assets/96696114/9c0b6252-e75f-44bb-8fee-f142a1b9a6ad)
+  
   모델 리스트 화면입니다.
 
   ![이미지](https://github.com/rasbt/deeplearning-models/assets/96696114/4f99e285-8789-4888-91d2-1e4e00f37523)
+  
   객체 감지 결과와 신뢰도, 프레임 레이턴시를 표시하는 화면입니다.
 
 #### 5. 개인 의견
