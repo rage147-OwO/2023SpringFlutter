@@ -74,6 +74,7 @@ PyTorch 기반 실시간 객체 감지 모델 테스트 앱
 #### 4. 프로그램 실행 화면 캡처 설명
 - 시연 영상: [링크](https://www.youtube.com/watch?v=HKiJsClo43w)
 - 아래는 프로그램 실행 화면의 캡처 이미지 및 설명입니다:
+  
   ![이미지](https://github.com/rasbt/deeplearning-models/assets/96696114/9c0b6252-e75f-44bb-8fee-f142a1b9a6ad)
   
   모델 리스트 화면입니다.
