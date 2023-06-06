@@ -1,0 +1,159 @@
+import 'package:flutter/material.dart';
+
+class Todo {
+  String title;
+  bool isCompleted;
+
+  Todo({
+    required this.title,
+    this.isCompleted = false,
+  });
+}
+
+class TodoListApp extends StatefulWidget {
+  @override
+  _TodoListAppState createState() => _TodoListAppState();
+}
+
+class _TodoListAppState extends State<TodoListApp> {
+  List<Todo> _todos = [];
+
+  TextEditingController _textEditingController = TextEditingController();
+
+  void _addTodo() {
+    String title = _textEditingController.text;
+    if (title.isNotEmpty) {
+      setState(() {
+        _todos.add(Todo(title: title));
+        _textEditingController.clear();
+      });
+    }
+  }
+
+  void _toggleTodoStatus(int index) {
+    setState(() {
+      _todos[index].isCompleted = !_todos[index].isCompleted;
+    });
+  }
+
+  void _editTodoTitle(int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Edit Todo'),
+          content: TextField(
+            controller: TextEditingController(text: _todos[index].title),
+            onChanged: (value) {
+              _todos[index].title = value;
+            },
+          ),
+          actions: [
+            TextButton(
+              child: Text('Save'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() {});
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteTodo(int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete Todo'),
+          content: Text('Are you sure you want to delete this todo?'),
+          actions: [
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Delete'),
+              onPressed: () {
+                setState(() {
+                  _todos.removeAt(index);
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildTodoItem(int index) {
+    Todo todo = _todos[index];
+
+    return ListTile(
+      title: Text(todo.title),
+      trailing: Checkbox(
+        value: todo.isCompleted,
+        onChanged: (value) {
+          _toggleTodoStatus(index);
+        },
+      ),
+      onTap: () {
+        _editTodoTitle(index);
+      },
+      onLongPress: () {
+        _deleteTodo(index);
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Todo List'),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: _todos.length,
+              itemBuilder: (context, index) {
+                return _buildTodoItem(index);
+              },
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _textEditingController,
+                    decoration: InputDecoration(
+                      hintText: 'Enter a new todo',
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: _addTodo,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: TodoListApp(),
+  ));
+}
